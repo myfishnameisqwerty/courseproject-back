@@ -1,22 +1,19 @@
 const mongoose = require("mongoose");
 const aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 const ProductSchema = new mongoose.Schema({
+    id: String,
   name: {
     type: String,
-    require: true,
+    required: true,
   },
   desc: {
     type: String,
-    require: true,
+    required: true,
   },
   price: {
     type: Number,
     min: [0, "price must be positive"],
-    validate: {
-      validator: Number.isInteger,
-      message: "{VALUE} is not an integer value",
-    },
-    require: true,
+    required: true,
   },
   createdAt: { type: Date, default: Date.now },
   available: Boolean,
@@ -36,34 +33,29 @@ const ProductSchema = new mongoose.Schema({
       message: "{VALUE} is not an integer value",
     },
   },
-  stars: Number,
+  star: Number,
   hash: String,
   pictures: [{ type: String }],
-  tags: [{ type: String }],
+  tags: [{ 
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "tags"
+    }],
   alegens: [{ type: String }],
   additives: [
     {
       additive: { type: String },
       price: {
         type: Number,
-        min: [0, "price must be positive"],
-        validate: {
-          validator: Number.isInteger,
-          message: "{VALUE} is not an integer value",
-        },
+        min: [0, "price must be positive"]
       },
     },
   ],
   variations: [
     {
-      variation: { type: String },
+      constiation: { type: String },
       price: {
         type: Number,
-        min: [0, "price must be positive"],
-        validate: {
-          validator: Number.isInteger,
-          message: "{VALUE} is not an integer value",
-        },
+        min: [0, "price must be positive"]
       },
     },
   ],
