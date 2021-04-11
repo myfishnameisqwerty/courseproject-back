@@ -10,12 +10,12 @@ exports.create = async (req, res) => {
                     return res.json(result)
                 })
             })
-        else    return res.json({errorStatus: true, error: "Tag exists"})
+        else    return res.json({errorStatus: true, error: "Status exists"})
     })
 }
 
 exports.findOne = async (req, res) => {
-    Tags.findById(req.params.id, (err, result) => {
+    Statuses.findById(req.params.id, (err, result) => {
         if (err)
             return (res.json({errorStatus: true, error: err}))
         else{
@@ -27,21 +27,21 @@ exports.findOne = async (req, res) => {
     })
 }
 exports.findAll = async (req, res) => {
-    Tags.find({}, (err, result) => {
+    Statuses.find({}, (err, result) => {
         if (err)
             return (res.json({errorStatus: true, error: err}))        
         return (res.json(result))
     })
 }
 exports.delete = async (req, res) => {
-    Tags.findByIdAndDelete(req.params.id, (err, result) => {
+    Statuses.findByIdAndDelete(req.params.id, (err, result) => {
         if (err)
             return (res.json({errorStatus: true, error: err}))        
         return (res.json(result))
     })
 }
 exports.update = async (req, res) => {
-    Tags.findByIdAndUpdate(req.params.id, {...req.body}, {new: true}, (err, result) => {
+    Statuses.findByIdAndUpdate(req.params.id, {...req.body}, {new: true}, (err, result) => {
         if (err)     return (res.json({errorStatus: true, error: err}))
         return (res.json(result))
     })

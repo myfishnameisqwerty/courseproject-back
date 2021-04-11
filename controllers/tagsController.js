@@ -27,7 +27,8 @@ exports.findOne = async (req, res) => {
 exports.findAll = async (req, res) => {
     Tags.find({}, (err, result) => {
         if (err)
-            return (res.json({errorStatus: true, error: err}))        
+            return (res.json({errorStatus: true, error: err}))
+            res.setHeader("Content-Range", `${result.length}`);        
         return (res.json(result))
     })
 }

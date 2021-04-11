@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 const ProductSchema = new mongoose.Schema({
-    id: String,
+  id: String,
   name: {
     type: String,
     required: true,
@@ -16,7 +16,10 @@ const ProductSchema = new mongoose.Schema({
     required: true,
   },
   createdAt: { type: Date, default: Date.now },
-  available: Boolean,
+  available: {
+    type: Boolean,
+    default: true
+  },
   min: {
     type: Number,
     min: [0, "min must be positive"],
@@ -36,17 +39,19 @@ const ProductSchema = new mongoose.Schema({
   star: Number,
   hash: String,
   pictures: [{ type: String }],
-  tags: [{ 
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "tags"
-    }],
+  tags: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "tags",
+    },
+  ],
   alegens: [{ type: String }],
   additives: [
     {
       additive: { type: String },
       price: {
         type: Number,
-        min: [0, "price must be positive"]
+        min: [0, "price must be positive"],
       },
     },
   ],
@@ -55,7 +60,7 @@ const ProductSchema = new mongoose.Schema({
       constiation: { type: String },
       price: {
         type: Number,
-        min: [0, "price must be positive"]
+        min: [0, "price must be positive"],
       },
     },
   ],

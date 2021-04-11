@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
 const jwt = require('jsonwebtoken')
-
+const aggregatePaginate = require("mongoose-aggregate-paginate-v2");
+const mongoosePaginate = require('mongoose-paginate-v2');
 const UserSchema = new mongoose.Schema({
     id: String,
     email: {
@@ -22,7 +23,7 @@ const UserSchema = new mongoose.Schema({
     role: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user_roles",
-        required: true
+        default: "606ae0123df5f00ce048aa44"
     },
     phone: {
         type: String,
@@ -46,7 +47,7 @@ const UserSchema = new mongoose.Schema({
 UserSchema.statics.generateAccessToken = function (userData){
     return jwt.sign(userData, process.env.TOKEN_SECRET, { expiresIn: '2d' })
 }
-
+UserSchema.plugin(aggregatePaginate);
 
 const UserModel = mongoose.model('users', UserSchema)
 module.exports = UserModel
