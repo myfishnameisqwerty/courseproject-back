@@ -1,5 +1,5 @@
 let mongoose = require("mongoose")
-require("dotenv").config()
+
 
 mongoose.set('returnOriginal', false)
 

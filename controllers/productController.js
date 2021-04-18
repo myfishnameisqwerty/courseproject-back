@@ -9,27 +9,28 @@ const addPictures = (images, pictures) => {
 
   for (let picture of pictures) {
 
-      images[images.length] = {'title': picture.title, 'active': true}
-      console.log( picture.title);
+      images[images.length] = picture.title.split(" ").join("")
+
       const image = picture.src
       
       const match = image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
       const buffer = Buffer.from(match[2], 'base64')
-      
-      
-      fs.writeFile(path.join(__dirname, '..', 'uploads', 'images', 'products', picture.title), buffer , { flag: 'wx' }, (err) => {
+      fs.writeFile(path.join(__dirname, '..', 'uploads', 'images', 'products', picture.title.split(" ").join("")), buffer , { flag: 'wx' }, (err) => {
           if(err)
               console.log(err)
       })
   }
-
+  console.log(images);
   return images
 }
 exports.create = async (req, res) => {
   try {
     const images = []
+    
     let {pictures, ...newProduct} = req.body;
+    console.log('========================================');
     newProduct.pictures = addPictures(images, pictures)
+    console.log(newProduct);
     newProduct = { ...newProduct, hash: calcHash(newProduct) };
     Products.findOne({ hash: newProduct.hash }, (err, result) => {
       if (!result)

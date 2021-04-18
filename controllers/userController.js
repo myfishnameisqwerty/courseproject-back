@@ -1,10 +1,10 @@
 const Users = require("../models/userModel");
 let bcrypt = require("bcrypt");
 const fs = require("fs");
+const auth = require("../middleware/auth")
 const saltRounds = 10;
 
 exports.Login = async (req, res) => {
-  console.log("Login");
   const { email, password } = req.body;
 
   if (req.body.password) {
@@ -32,6 +32,7 @@ exports.userExists = async (req, res) => {
   return res.json(await checkUserExistsBy(req.body));
 };
 exports.create = async (req, res) => {
+  console.log(req.body);
   try {
     if (!(await checkUserExistsBy({ email: req.body.email }))) {
       const { password, ...rest } = req.body;
@@ -58,7 +59,7 @@ exports.create = async (req, res) => {
                 if (result) {
                   const token = Users.generateAccessToken(rest);
                   return res.json({
-                    token,
+                    token
                   });
                 }
                 return res.json({
@@ -79,6 +80,14 @@ exports.create = async (req, res) => {
     logError("error on user creation", e);
   }
 };
+
+
+exports.findByToken = async (req, res) => {
+  const user = await Users.findOne({ email: auth.checkToken(req,res) })
+  const {password, ...rest} = user._doc
+  return res.status(200).json(rest);
+}
+
 
 exports.findOne = async (req, res) => {
   Users.findById(req.params.id)
