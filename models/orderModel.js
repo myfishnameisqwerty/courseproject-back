@@ -60,6 +60,7 @@ const OrderSchema = new mongoose.Schema({
   status: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "order_statuses",
+    default: "606c1ec3f899a456582bad20"
   },
   totalSum: {
     type: Number,

@@ -2,15 +2,20 @@ const Orders = require("../models/orderModel");
 exports.create = async (req, res) => {
   Orders.create(req.body, (err, obj) => {
     if (err) return res.json({ errorStatus: true, error: err });
-    Orders.findByIdAndUpdate(
-      obj._id,
-      { id: obj._id },
-      { new: true },
-      (err, result) => {
-        if (err) return res.json({ errorStatus: true, error: err });
-        return res.json(result);
-      }
-    );
+    try{
+      Orders.findByIdAndUpdate(
+        obj._id,
+        { id: obj._id },
+        { new: true },
+        (err, result) => {
+          if (err) return res.json({ errorStatus: true, error: err });
+          return res.json(result);
+        }
+      );
+    }
+    catch(e){
+      console.log(e);
+    }
   });
 };
 

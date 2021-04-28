@@ -66,8 +66,9 @@ exports.create = async (req, res) => {
   }
 };
 exports.getImage = async (req, res) =>{
-  var imageName = req.params.imageName
-  return res.sendFile(path.join(__dirname, '..', 'uploads', imageName))
+  console.log("req is !!!!", req.params.id);
+  var imageName = req.params.id
+  return res.sendFile(path.join(__dirname, '..', 'uploads', 'images', 'products', imageName))
 }
 // exports.getProduct = async (req, res) => {
 
@@ -260,10 +261,9 @@ exports.findAll = async (req, res) => {
             Object.keys(JSON.parse(req.query.filter)).length
           ) {
             let filter = JSON.parse(req.query.filter)
-                
                 result = result.filter((item) => {
                   let arr = item[Object.keys(filter)[0]]
-                  
+                  console.log("The arr is", arr);
                   if (!Array.isArray(arr)) arr = [arr]
                   if (!Array.isArray(filter[Object.keys(filter)[0]])) filter[Object.keys(filter)[0]]=[filter[Object.keys(filter)[0]]].map(v => v.toLowerCase())
                   
